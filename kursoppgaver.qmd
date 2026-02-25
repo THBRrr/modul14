@@ -1,0 +1,37 @@
+---
+title: "Tekstanalyse ved bruk av tidytext"
+author: "Theodor Bredal-Thorsen"
+format: revealjs
+editor: visual
+---
+# Oppgave 1 - Lese inn og strukturere tekst fra PDF
+
+```{r}
+# Lese inn 3-4 dokumenter fra samme kilde i forskjellige tidsrom, med varierende innhold
+
+```
+
+
+# Oppgave 2 - Dele teksten inn i analyseenheter
+
+```{r}
+# Teste ut å dele i ord, bigram og setninger
+
+```
+
+
+# Oppgave 3 - Preprosessering av tekst
+
+```{r}
+# Redusere kompleksitet i tekst, følge standardoppskrift
+
+```
+
+
+# Oppgave 4 - Ordboksanalyse
+```{r}
+# Finne ord som relaterer til en sak, sjekke opp mot korpus (Kanskje Covid?)
+
+
+```
+

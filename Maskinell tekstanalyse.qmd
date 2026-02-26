@@ -23,8 +23,15 @@ editor: visual
 
 # Maskinlæring
 
+-   Hva menes med "læring"
+-   Maskinlæring versus regelbaserte fremgangsmåter
+-   Regresjoner og klassifikasjoner
+
+# Klassifikasjonsmodeller
+Klassifikasjon er i essens en logistisk regresjon, da vi har et binært utfall.
+Ved mange-dimensjonell data (tekst!) er en maskinlæringtilnærming svært nyttig!
+
 ```{r}
 
+
 ```
-
-

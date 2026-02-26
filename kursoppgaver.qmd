@@ -1,21 +1,73 @@
 ---
 title: "Tekstanalyse ved bruk av tidytext"
 author: "Theodor Bredal-Thorsen"
-format: revealjs
+format:
+  revealjs:
+    code-overflow: wrap
+    self-contained: true 
+    embed-resources: true
+    theme: serif
+    width: 1280
+    height: 720
+    show-notes: false 
+    slide-number: true
+    transition: fade
+    toc-depth: 2
+    code-annotations: select
+execute:
+  echo: true
+  warning: false
+  message: false
 editor: visual
 ---
 # Oppgave 1 - Lese inn og strukturere tekst fra PDF
 
+# Pakker
+```{r}
+library(tidytext)
+library(quanteda)
+library(purrr)
+library(dplyr)
+library(stringr)
+library(pdftools)
+```
+
+
+# Fasit
 ```{r}
 # Lese inn 3-4 dokumenter fra samme kilde i forskjellige tidsrom, med varierende innhold
+filer <- list.files("C:/Dokumenter/repo/modul14/Oppgavefiler")
+
+
+data <- tibble(
+        dok_navn = filer,
+        year = filer |> str_extract("[0-9]+"),
+        tekst = map_chr(str_c("C:/Dokumenter/repo/modul14/Oppgavefiler/", filer),
+          ~ pdf_text(.x) |>
+            paste(collapse = "\n") |> 
+            str_replace_all("\\s+", " ") |> 
+            str_squish()
+            ))
 
 ```
 
 
 # Oppgave 2 - Dele teksten inn i analyseenheter
 
+
+# Fasit
 ```{r}
 # Teste ut å dele i ord, bigram og setninger
+
+ord <- data |> unnest_tokens(word, tekst, token = "words")
+
+bigram <- data |> 
+  mutate(tekst = str_remove_all(tekst, "[0-9]+")) |> 
+  unnest_tokens(to_ord, tekst, token = "ngrams", n = 2)
+
+setninger <- data |> 
+  unnest_tokens(setninger, tekst, token = "sentences")
+  
 
 ```
 
@@ -24,6 +76,13 @@ editor: visual
 
 ```{r}
 # Redusere kompleksitet i tekst, følge standardoppskrift
+ord <- ord |> 
+  filter(!str_detect(word, "[0-9]+"),
+         !str_detect(word, "[.!?,]")) |> 
+    filter(str_length(word) > 1) |> 
+    filter(!word %in% stopwords(language = "no")) #|> 
+  #mutate(word = char_wordstem(word, language = "no")) #"Stemming", rotform av ordet
+
 
 ```
 
@@ -32,6 +91,25 @@ editor: visual
 ```{r}
 # Finne ord som relaterer til en sak, sjekke opp mot korpus (Kanskje Covid?)
 
+ord_telling <- ord |> 
+  group_by(year) |> 
+  count(word)
 
+plot_data <- ord_telling |> 
+  filter(word %in% c("kritikk", "kritikkverdig")) |> 
+  group_by(year) |> 
+  summarise(n = sum(n))
+
+library(ggplot2)
+
+plot <- ggplot(data = plot_data, aes(x = year, y = n)) +
+  geom_col(fill = "firebrick", alpha =0.5) +
+  theme_minimal()
 ```
+# 
+```{r}
+
+plot
+```
+
 

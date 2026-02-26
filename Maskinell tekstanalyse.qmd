@@ -1,0 +1,30 @@
+---
+title: "Maskinell analyse av tekst"
+author: "Theodor Bredal-Thorsen"
+format:
+  revealjs:
+    code-overflow: wrap
+    self-contained: true 
+    embed-resources: true
+    theme: serif
+    width: 1280
+    height: 720
+    show-notes: false 
+    slide-number: true
+    transition: fade
+    toc-depth: 2
+    code-annotations: select
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+# Maskinlæring
+
+```{r}
+
+```
+
+

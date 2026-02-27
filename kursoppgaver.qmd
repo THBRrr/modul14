@@ -96,7 +96,7 @@ ord_telling <- ord |>
   count(word)
 
 plot_data <- ord_telling |> 
-  filter(word %in% c("kritikk", "kritikkverdig")) |> 
+  filter(word %in% c("kritikk", "kritikkverdig", "mangler", "manglende", "kritisk")) |> 
   group_by(year) |> 
   summarise(n = sum(n))
 
@@ -108,8 +108,58 @@ plot <- ggplot(data = plot_data, aes(x = year, y = n)) +
 ```
 # 
 ```{r}
-
 plot
+```
+```{r}
+str_length(data$tekst[1:3])
+
+```
+
+# Gir oftest mening med mange dokumenter!
+
+```{r}
+
+set.seed(501)
+
+ord_boot <- ord$word
+
+bootstrapped <- list()
+
+for (i in c(1:25)) {
+  
+  boot_sample <- sample(
+  ord_boot,
+  replace = TRUE,
+  size = 10000)
+  
+      bootstrapped[[i]] <- boot_sample
+}
+
+bootstrapped_data <- tibble(
+  dok_navn = paste0("boot_", 1:25),
+  year = paste0("year_", 1:25),
+  tekst = map_chr(bootstrapped, ~ paste(.x, collapse = " "))
+)
+
+ord_boot <- bootstrapped_data |> 
+  unnest_tokens(word, tekst)
+
+ord_telling_boot <- ord_boot |> 
+  group_by(year) |> 
+  count(word)
+
+plot_data_boot <- ord_telling_boot |> 
+  filter(word %in% c("kritikk", "kritikkverdig", "mangler", "manglende", "kritisk")) |> 
+  group_by(year) |> 
+  summarise(n = sum(n))
+
+plot_boot <- ggplot(data = plot_data_boot, aes(x = year, y = n)) +
+  geom_col(fill = "firebrick", alpha = 0.5) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme_minimal()
+
+plot_boot
+
 ```
 
 

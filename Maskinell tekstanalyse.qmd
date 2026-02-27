@@ -31,6 +31,14 @@ editor: visual
 Klassifikasjon er i essens en logistisk regresjon, da vi har et binært utfall.
 Ved mange-dimensjonell data (tekst!) er en maskinlæringtilnærming svært nyttig!
 
+
+## Former for klassifikasjon
+Man kan klassifisere det meste, og få mange forskjellige innsikter. Se på metoden som et ikke-biased mål på forskjeller gitt av tekst.
+
+-   Finne sentiment
+-   Klassifisere avsender
+-   
+
 ```{r}
 
 
